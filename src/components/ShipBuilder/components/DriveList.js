@@ -4,13 +4,13 @@ import {getRequiredPowerPlantLoc} from "../../../helpers/power-plant";
 import KeyValueRow from "../../general/KeyValueTable/KeyValueRow";
 import {useDispatch} from "react-redux";
 import {shipActions} from "../../../store/ship-slice";
+import {dndActions} from "../../../store/dnd-slice";
 
 const DriveList = (props) => {
     const dispatch = useDispatch();
 
     const driveSelectedHandler = (drive) => {
         dispatch(shipActions.highlightComponents('drive'));
-
         props.componentSelectionChanged(drive);
     }
 
@@ -29,6 +29,15 @@ const DriveList = (props) => {
             </Grid>
         }
 
+        const dragStartHandler = (drive) => {
+            driveSelectedHandler(drive);
+            
+            dispatch(dndActions.startDrag({
+                item: drive,
+                itemType: 'drive',
+            }));
+        }
+
         const tooltip = <div>
             <div style={{minWidth: 250}}>{drive.friendlyName}</div>
             <Grid container spacing={1}>
@@ -44,7 +53,8 @@ const DriveList = (props) => {
 
         return (
             <Tooltip key={drive.dataName} sx={{maxWidth: '500px'}} title={tooltip}>
-                <img onClick={driveSelectedHandler.bind(null, drive)}
+                <img onDragStart={dragStartHandler.bind(null, drive)} draggable
+                     onClick={driveSelectedHandler.bind(null, drive)}
                      src={`assets/shipbuildericons/ico_${iconName}.png`} alt={drive.name}
                      width={72}/>
             </Tooltip>

@@ -1,4 +1,4 @@
-import {Grid, Typography} from "@mui/material";
+import {Grid, Paper, Typography} from "@mui/material";
 import {thrustDisplay} from "../../helpers/drives";
 import KeyValueRow from "../general/KeyValueTable/KeyValueRow";
 import {getDriveLoc} from "../../helpers/localizations";
@@ -30,7 +30,13 @@ const DriveComponentSummary = (props) => {
         <>
             <Grid container>
                 <Grid item xs={12}>
-                    <Typography variant="h6">{drive.friendlyName}</Typography>
+                    <Paper>
+                        <Typography variant="h6"
+                                    style={{
+                                        textAlign: 'center',
+                                        textTransform: 'uppercase'
+                                    }}>{drive.friendlyName}</Typography>
+                    </Paper>
                 </Grid>
                 <KeyValueRow label="Required Power">
                     {displayRequiredPower(requiredPower)}

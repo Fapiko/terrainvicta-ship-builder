@@ -13,6 +13,7 @@ const themeOptions = {
         background: {
             paper: '#1b282e',
             default: '#0f1317',
+            hover: '#5299a3',
         },
         text: {
             primary: '#b8d7d9',

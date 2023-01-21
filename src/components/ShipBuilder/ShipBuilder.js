@@ -1,19 +1,25 @@
 import {Box, Grid} from "@mui/material";
 import {emptyComponentMappings, selectComponentMappings} from "./components/EmptyComponent";
-import DriveList from "./components/DriveList";
 import {useState} from "react";
 import ComponentSummary from "./ComponentSummary";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import CategoryTab from "./CategoryTab";
+import ComponentList from "./components/ComponentList";
+import {dndActions} from "../../store/dnd-slice";
+import ShipSummary from "./ShipSummary";
 
 const centerRow = 3;
 const armorRow = 7;
 const imageWidth = 72;
 
 const ShipBuilder = (props) => {
+    const dispatch = useDispatch();
     const ship = useSelector(state => state.ship);
     const highlightedComponent = useSelector(state => state.ship.highlightedComponentType);
+    const [populatedComponents, setPopulatedComponents] = useState({});
+    const dnd = useSelector(state => state.dnd);
 
-    console.log(highlightedComponent);
+    const selectedComponentCategory = 'drive';
 
     const [selectedComponent, setSelectedComponent] = useState({});
     let componentsByType = {
@@ -63,6 +69,27 @@ const ShipBuilder = (props) => {
         position += offset * imageWidth;
 
         return position + 'px';
+    }
+
+    const allowDropHandler = (e) => {
+        e.preventDefault();
+    }
+
+    const onDropHandler = (coordinates) => {
+        const expectedComponentType = slotMap[coordinates.x][coordinates.y];
+        if (dnd.itemType !== expectedComponentType.toLowerCase()) {
+            console.log('Dropped item type does not match expected component type', dnd.itemType, expectedComponentType);
+            return;
+        }
+
+        const newState = {...populatedComponents};
+        if (newState[coordinates.x] === undefined) {
+            newState[coordinates.x] = {};
+        }
+
+        newState[coordinates.x][coordinates.y] = dnd.item;
+        setPopulatedComponents(newState);
+        dispatch(dndActions.drop());
     }
 
     const customGrid = () => {
@@ -118,13 +145,17 @@ const ShipBuilder = (props) => {
             }
 
             let filename = '';
-            if (slot.moduleSlotType.toLowerCase() === highlightedComponent) {
+            if (populatedComponents[x] !== undefined && populatedComponents[x][y] !== undefined) {
+                filename = `ico_${populatedComponents[x][y].normalizedDataName.replace('-', '_').toLowerCase()}`;
+            } else if (slot.moduleSlotType.toLowerCase() === highlightedComponent) {
                 filename = selectComponentMappings[slot.moduleSlotType];
             } else {
                 filename = emptyComponentMappings[slot.moduleSlotType];
             }
 
             const image = <img
+                onDragOver={allowDropHandler}
+                onDrop={onDropHandler.bind(null, {x, y})}
                 key={`${x}-${y}`}
                 style={{position: 'absolute', top: px(slot.y, offset), left: px(slot.x)}}
                 width={'72px'}
@@ -137,16 +168,58 @@ const ShipBuilder = (props) => {
         return images;
     }
 
+    const componentsList = [];
+    for (const components of Object.values(populatedComponents)) {
+        for (const component of Object.values(components)) {
+            componentsList.push(component);
+        }
+    }
+
     const imgGrid = customGrid()
 
     return (
         <Box sx={{backgroundColor: 'background.default', width: '100%', minHeight: '700px'}}>
+            <Grid container columns={8}>
+                <Grid item xs={1}>
+                    <CategoryTab selected={selectedComponentCategory === 'noseweapons'}>NOSE
+                        WEAPONS</CategoryTab>
+                </Grid>
+                <Grid item xs={1}>
+                    <CategoryTab selected={selectedComponentCategory === 'hullweapons'}>HULL
+                        WEAPONS</CategoryTab>
+                </Grid>
+                <Grid item xs={1}>
+                    <CategoryTab selected={selectedComponentCategory === 'utilitymodules'}>UTILITY
+                        MODULES</CategoryTab>
+                </Grid>
+                <Grid item xs={1}>
+                    <CategoryTab
+                        selected={selectedComponentCategory === 'radiators'}>RADIATORS</CategoryTab>
+                </Grid>
+                <Grid item xs={1}>
+                    <CategoryTab
+                        selected={selectedComponentCategory === 'battery'}>BATTERY</CategoryTab>
+                </Grid>
+                <Grid item xs={1}>
+                    <CategoryTab selected={selectedComponentCategory === 'powerplant'}>POWER
+                        PLANT</CategoryTab>
+                </Grid>
+                <Grid item xs={1}>
+                    <CategoryTab
+                        selected={selectedComponentCategory === 'drive'}>DRIVE</CategoryTab>
+                </Grid>
+                <Grid item xs={1}>
+                    <CategoryTab
+                        selected={selectedComponentCategory === 'armor'}>ARMOR</CategoryTab>
+                </Grid>
+            </Grid>
             <Box sx={{display: 'flex'}}>
-                <DriveList componentSelectionChanged={setSelectedComponent}/>
+                <ComponentList componentSelectionChanged={setSelectedComponent}
+                               componentCategory={selectedComponentCategory}/>
             </Box>
             <Grid container>
                 <Grid item xs={3}>
-                    <Box>Ship summary</Box>
+                    <ShipSummary hull={ship.hull} components={componentsList}/>
                     <ComponentSummary component={selectedComponent}/>
                 </Grid>
                 <Grid item xs={9}>
