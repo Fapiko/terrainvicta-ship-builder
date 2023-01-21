@@ -23,17 +23,16 @@ const PropellantMaterials = (props) => {
 
         if (amount > 0) {
             propellantList.push(
-                <>
-                    <span style={{
-                        paddingLeft: '17px',
-                        marginLeft: '3px',
-                        backgroundImage: `url('assets/icons/ico_${iconName}.png')`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 17,
-                    }}>
+                <span key={propellant} style={{
+                    paddingLeft: '17px',
+                    marginLeft: '3px',
+                    backgroundImage: `url('assets/icons/ico_${iconName}.png')`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 17,
+                }}>
                         {unitDisplay(amount)}
                     </span>
-                </>);
+            );
         }
     }
 

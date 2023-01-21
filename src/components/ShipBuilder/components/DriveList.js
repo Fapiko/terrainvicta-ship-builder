@@ -2,9 +2,15 @@ import {exhaustVelocityDisplay, playerDrives, thrustDisplay} from "../../../help
 import {Box, Grid, Tooltip} from "@mui/material";
 import {getRequiredPowerPlantLoc} from "../../../helpers/power-plant";
 import KeyValueRow from "../../general/KeyValueTable/KeyValueRow";
+import {useDispatch} from "react-redux";
+import {shipActions} from "../../../store/ship-slice";
 
 const DriveList = (props) => {
+    const dispatch = useDispatch();
+
     const driveSelectedHandler = (drive) => {
+        dispatch(shipActions.highlightComponents('drive'));
+
         props.componentSelectionChanged(drive);
     }
 

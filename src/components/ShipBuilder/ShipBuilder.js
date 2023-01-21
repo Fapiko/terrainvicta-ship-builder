@@ -1,7 +1,7 @@
 import {Box, Grid} from "@mui/material";
-import {componentMappings} from "./components/EmptyComponent";
+import {emptyComponentMappings, selectComponentMappings} from "./components/EmptyComponent";
 import DriveList from "./components/DriveList";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import ComponentSummary from "./ComponentSummary";
 import {useSelector} from "react-redux";
 
@@ -11,13 +11,24 @@ const imageWidth = 72;
 
 const ShipBuilder = (props) => {
     const ship = useSelector(state => state.ship);
+    const highlightedComponent = useSelector(state => state.ship.highlightedComponentType);
+
+    console.log(highlightedComponent);
+
     const [selectedComponent, setSelectedComponent] = useState({});
-
-    useEffect(() => {
-        console.log(ship);
-    }, [ship]);
-
-    console.log(ship);
+    let componentsByType = {
+        utility: [],
+        nosehardpoint: [],
+        hullhardpoint: [],
+        battery: {},
+        drive: {},
+        radiator: {},
+        powerplant: {},
+        tailarmor: {},
+        sidearmor: {},
+        lateralarmor: {},
+        propellant: {},
+    };
 
     const slotMap = {};
     ship.hull.shipModuleSlots.forEach(slot => {
@@ -30,6 +41,17 @@ const ShipBuilder = (props) => {
         }
 
         slotMap[slot.x][slot.y] = slot.moduleSlotType;
+
+        const normalizedSlotType = slot.moduleSlotType.toLowerCase();
+        switch (normalizedSlotType) {
+            case 'utility':
+            case 'nosehardpoint':
+            case 'hullhardpoint':
+                componentsByType[normalizedSlotType].push({x: slot.x, y: slot.y});
+                break
+            default:
+                componentsByType[normalizedSlotType] = {x: slot.x, y: slot.y};
+        }
     });
 
     const px = (num, offset) => {
@@ -69,8 +91,6 @@ const ShipBuilder = (props) => {
             const x = slot.x;
             const y = slot.y;
 
-            const filename = componentMappings[slot.moduleSlotType];
-
             let offset = 0;
             if (y !== centerRow && y !== armorRow) {
                 const length = columnLists[x].length;
@@ -95,6 +115,13 @@ const ShipBuilder = (props) => {
                 if (y > centerRow) {
                     offset *= -1;
                 }
+            }
+
+            let filename = '';
+            if (slot.moduleSlotType.toLowerCase() === highlightedComponent) {
+                filename = selectComponentMappings[slot.moduleSlotType];
+            } else {
+                filename = emptyComponentMappings[slot.moduleSlotType];
             }
 
             const image = <img
