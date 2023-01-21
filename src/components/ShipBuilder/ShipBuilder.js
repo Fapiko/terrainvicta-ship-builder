@@ -7,6 +7,7 @@ import CategoryTab from "./CategoryTab";
 import ComponentList from "./components/ComponentList";
 import {dndActions} from "../../store/dnd-slice";
 import ShipSummary from "./ShipSummary";
+import IncrementDecrement from "./components/IncrementDecrement";
 
 const centerRow = 3;
 const armorRow = 7;
@@ -60,15 +61,17 @@ const ShipBuilder = (props) => {
         }
     });
 
-    const px = (num, offset) => {
+    const px = (position) => {
+        return position + 'px';
+    }
+
+    const positionOffset = (num, offset) => {
         if (offset === undefined) {
             offset = 0;
         }
 
         let position = num * imageWidth;
-        position += offset * imageWidth;
-
-        return position + 'px';
+        return position + offset * imageWidth;
     }
 
     const allowDropHandler = (e) => {
@@ -92,6 +95,7 @@ const ShipBuilder = (props) => {
         dispatch(dndActions.drop());
     }
 
+    let driveLocation = {top: 0, left: 0}
     const customGrid = () => {
         const images = [];
 
@@ -111,6 +115,10 @@ const ShipBuilder = (props) => {
         }
 
         ship.hull.shipModuleSlots.forEach(slot => {
+            if (slot.moduleSlotType.includes('Armor') || slot.moduleSlotType.includes('Propellant')) {
+                return;
+            }
+
             if (slot.x === '' || slot.x === null) {
                 return;
             }
@@ -162,6 +170,15 @@ const ShipBuilder = (props) => {
 
             const pixelOffset = centerRow - (maxHeight / 2);
 
+            const top = positionOffset(slot.y, offset - pixelOffset);
+            const left = positionOffset(slot.x);
+
+            if (slot.moduleSlotType === 'Drive') {
+                driveLocation = {
+                    top: top,
+                    left: left,
+                };
+            }
 
             const image = <img
                 onDragOver={allowDropHandler}
@@ -169,8 +186,8 @@ const ShipBuilder = (props) => {
                 key={`${x}-${y}`}
                 style={{
                     position: 'absolute',
-                    top: px(slot.y, offset - pixelOffset),
-                    left: px(slot.x)
+                    top: px(top),
+                    left: px(left),
                 }}
                 width={'72px'}
                 src={`assets/shipbuildericons/${filename}.png`}
@@ -244,7 +261,13 @@ const ShipBuilder = (props) => {
                         marginTop: '20px',
                         marginBottom: '20px'
                     }}>
+                        <IncrementDecrement top={driveLocation.top - imageWidth / 2 - 10}
+                                            left={driveLocation.left - 10}
+                                            label='Propellant Tanks'/>
                         {imgGrid}
+                        <IncrementDecrement top={driveLocation.top + imageWidth + 10}
+                                            left={driveLocation.left + 8}
+                                            label=''/>
                     </Box>
                 </Grid>
             </Grid>

@@ -1,11 +1,11 @@
 import {Box} from "@mui/material";
 import {useState} from "react";
 
-const CategoryTab = (props) => {
+const IncrementDecrementButton = (props) => {
     const [hovering, setHovering] = useState(false);
 
     let backgroundColor = 'background.paper';
-    if (props.selected || hovering) {
+    if (hovering) {
         backgroundColor = 'background.hover';
     }
 
@@ -19,14 +19,25 @@ const CategoryTab = (props) => {
 
     return (
         <Box sx={{
-            lineHeight: '40px',
             backgroundColor: `${backgroundColor}`,
+            fontSize: 16,
+            fontWeight: 'bold',
+            display: 'inline-block',
+            width: '20px',
+            height: '20px',
             textAlign: 'center',
+            lineHeight: '15px',
+            borderRadius: '50%',
+            borderColor: 'text.primary',
+            borderStyle: 'solid',
+            borderWidth: '2px',
             cursor: 'pointer',
+            marginLeft: '3px',
+            marginRight: '3px',
         }} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
             {props.children}
         </Box>
-    )
+    );
 }
 
-export default CategoryTab;
+export default IncrementDecrementButton;
