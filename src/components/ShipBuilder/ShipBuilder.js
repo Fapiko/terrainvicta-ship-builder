@@ -101,7 +101,7 @@ const ShipBuilder = (props) => {
                 columnLists[y] = [];
             }
 
-            for (const [x, slotType] of Object.entries(column)) {
+            for (const slotType of Object.values(column)) {
                 if (slotType.includes('Armor') || slotType.includes('Propellant')) {
                     continue;
                 }
@@ -153,11 +153,25 @@ const ShipBuilder = (props) => {
                 filename = emptyComponentMappings[slot.moduleSlotType];
             }
 
+            let maxHeight = 1;
+            for (const column of Object.values(columnLists)) {
+                if (column.length > maxHeight) {
+                    maxHeight = column.length;
+                }
+            }
+
+            const pixelOffset = centerRow - (maxHeight / 2);
+
+
             const image = <img
                 onDragOver={allowDropHandler}
                 onDrop={onDropHandler.bind(null, {x, y})}
                 key={`${x}-${y}`}
-                style={{position: 'absolute', top: px(slot.y, offset), left: px(slot.x)}}
+                style={{
+                    position: 'absolute',
+                    top: px(slot.y, offset - pixelOffset),
+                    left: px(slot.x)
+                }}
                 width={'72px'}
                 src={`assets/shipbuildericons/${filename}.png`}
                 alt={'icon'}/>
