@@ -2,7 +2,7 @@ import IncrementDecrementButton from "./IncrementDecrementButton";
 
 const IncrementButton = (props) => {
     return (
-        <IncrementDecrementButton>+</IncrementDecrementButton>
+        <IncrementDecrementButton clickHandler={props.clickHandler}>+</IncrementDecrementButton>
     );
 }
 

@@ -34,7 +34,8 @@ const IncrementDecrementButton = (props) => {
             cursor: 'pointer',
             marginLeft: '3px',
             marginRight: '3px',
-        }} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
+        }} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}
+             onClick={props.clickHandler}>
             {props.children}
         </Box>
     );

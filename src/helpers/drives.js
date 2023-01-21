@@ -29,6 +29,19 @@ export const playerDrives = Object.entries(drivesMap).map(keyValue => {
     return drivesMap[name][1]
 });
 
+export const maxThrusters = (drive) => {
+    if (drive === undefined) {
+        return 0;
+    }
+    
+    const foundDrive = drivesMap[drive.normalizedDataName];
+    return foundDrive[foundDrive.length - 1].thrusters;
+}
+
+export const driveByNameWithThrusterCount = (name, thrusters) => {
+    return drivesMap[name][thrusters];
+}
+
 export const thrustDisplay = (thrust) => {
     return `${thrust.toLocaleString('en-US')} Newtons`;
 }

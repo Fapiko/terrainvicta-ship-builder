@@ -8,6 +8,7 @@ import ComponentList from "./components/ComponentList";
 import {dndActions} from "../../store/dnd-slice";
 import ShipSummary from "./ShipSummary";
 import IncrementDecrement from "./components/IncrementDecrement";
+import {driveByNameWithThrusterCount, maxThrusters} from "../../helpers/drives";
 
 const centerRow = 3;
 const armorRow = 7;
@@ -206,7 +207,23 @@ const ShipBuilder = (props) => {
         }
     }
 
+    const drive = componentsList.find(component => component.componentType === 'drive');
     const imgGrid = customGrid()
+
+    const changeDriveThrustersHandler = (value) => {
+        for (const [x, column] of Object.entries(populatedComponents)) {
+            for (const [y, component] of Object.entries(column)) {
+                if (component.componentType === 'drive') {
+                    const newState = {...populatedComponents};
+                    const newDrive = driveByNameWithThrusterCount(drive.normalizedDataName, value);
+
+                    newState[x][y] = newDrive;
+                    setPopulatedComponents(newState);
+                    setSelectedComponent(newDrive);
+                }
+            }
+        }
+    }
 
     return (
         <Box sx={{backgroundColor: 'background.default', width: '100%', minHeight: '700px'}}>
@@ -265,7 +282,10 @@ const ShipBuilder = (props) => {
                                             left={driveLocation.left - 10}
                                             label='Propellant Tanks'/>
                         {imgGrid}
-                        <IncrementDecrement top={driveLocation.top + imageWidth + 10}
+                        <IncrementDecrement onChange={changeDriveThrustersHandler}
+                                            min={1}
+                                            max={maxThrusters(drive)}
+                                            top={driveLocation.top + imageWidth + 10}
                                             left={driveLocation.left + 8}
                                             label=''/>
                     </Box>
