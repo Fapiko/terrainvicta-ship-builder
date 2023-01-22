@@ -33,7 +33,7 @@ export const maxThrusters = (drive) => {
     if (drive === undefined) {
         return 0;
     }
-    
+
     const foundDrive = drivesMap[drive.normalizedDataName];
     return foundDrive[foundDrive.length - 1].thrusters;
 }
@@ -47,6 +47,14 @@ export const thrustDisplay = (thrust) => {
 }
 
 export const exhaustVelocityDisplay = (exhaustVelocity) => {
+    if (exhaustVelocity > 1000) {
+        return `${(exhaustVelocity / 1000).toFixed(2)}K kps`;
+    } else {
+        return `${(exhaustVelocity).toFixed(2)} kps`;
+    }
+}
+
+export const displayKps = (exhaustVelocity) => {
     if (exhaustVelocity > 1000) {
         return `${(exhaustVelocity / 1000).toFixed(2)}K kps`;
     } else {

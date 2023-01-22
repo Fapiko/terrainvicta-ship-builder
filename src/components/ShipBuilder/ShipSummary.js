@@ -1,7 +1,9 @@
 import {Grid, Paper, Typography} from "@mui/material";
 import KeyValueRow from "../general/KeyValueTable/KeyValueRow";
+import {displayKps} from "../../helpers/drives";
 
 const tonsPerCrew = 4;
+const tonsPerTank = 100;
 
 const ShipSummary = (props) => {
     let crew = props.hull.crew;
@@ -16,6 +18,8 @@ const ShipSummary = (props) => {
         wetMass += componentMass;
     }
     wetMass = wetMass + crew * tonsPerCrew;
+
+    wetMass += props.tanks * tonsPerTank;
 
     const displayGs = (gs) => {
         let number = gs;
@@ -47,6 +51,8 @@ const ShipSummary = (props) => {
         combatAcceleration = displayGs(combatAccelerationGs);
     }
 
+    const deltaV = drive === undefined ? 0 : drive.EV_kps * Math.log(wetMass / (wetMass - props.tanks * tonsPerTank));
+
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -70,6 +76,9 @@ const ShipSummary = (props) => {
             </KeyValueRow>
             <KeyValueRow label="Combat Acceleration">
                 {combatAcceleration}
+            </KeyValueRow>
+            <KeyValueRow label="Delta-V">
+                {displayKps(deltaV)}
             </KeyValueRow>
         </Grid>
     );

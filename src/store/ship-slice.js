@@ -5,6 +5,7 @@ const shipSlice = createSlice({
     name: 'ship',
     initialState: {
         hull: playerHulls.find(hull => hull.dataName === 'Gunship'),
+        propellantTanks: 0,
     },
     reducers: {
         highlightComponents(state, action) {
@@ -13,6 +14,9 @@ const shipSlice = createSlice({
         },
         setHull(state, action) {
             state.hull = action.payload;
+        },
+        setPropellentTanks(state, action) {
+            state.propellantTanks = action.payload;
         }
     }
 });

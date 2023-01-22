@@ -1,5 +1,5 @@
 import {Grid, Paper, Typography} from "@mui/material";
-import {thrustDisplay} from "../../helpers/drives";
+import {displayKps, thrustDisplay} from "../../helpers/drives";
 import KeyValueRow from "../general/KeyValueTable/KeyValueRow";
 import {getDriveLoc} from "../../helpers/localizations";
 import PropellantMaterials from "./PropellantMaterials";
@@ -15,14 +15,6 @@ const DriveComponentSummary = (props) => {
             return `${Math.round(powerInGigawatts * 1000)} Megawatts`;
         } else {
             return `${Math.round(powerInGigawatts)} Gigawatts`;
-        }
-    }
-
-    const displayExhaustVelocity = (exhaustVelocity) => {
-        if (exhaustVelocity > 1000) {
-            return `${(exhaustVelocity / 1000).toFixed(2)}K kps`;
-        } else {
-            return `${(exhaustVelocity).toFixed(2)} kps`;
         }
     }
 
@@ -45,7 +37,7 @@ const DriveComponentSummary = (props) => {
                     {thrustDisplay(drive.thrust_N)}
                 </KeyValueRow>
                 <KeyValueRow label="Exhaust Velocity">
-                    {displayExhaustVelocity(drive.EV_kps)}
+                    {displayKps(drive.EV_kps)}
                 </KeyValueRow>
                 <KeyValueRow label="Power Use Efficiency">
                     {drive.efficiency * 100}%

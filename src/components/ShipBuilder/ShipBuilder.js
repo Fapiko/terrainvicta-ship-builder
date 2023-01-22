@@ -9,12 +9,13 @@ import {dndActions} from "../../store/dnd-slice";
 import ShipSummary from "./ShipSummary";
 import IncrementDecrement from "./components/IncrementDecrement";
 import {driveByNameWithThrusterCount, maxThrusters} from "../../helpers/drives";
+import {shipActions} from "../../store/ship-slice";
 
 const centerRow = 3;
 const armorRow = 7;
 const imageWidth = 72;
 
-const ShipBuilder = (props) => {
+const ShipBuilder = () => {
     const dispatch = useDispatch();
     const ship = useSelector(state => state.ship);
     const highlightedComponent = useSelector(state => state.ship.highlightedComponentType);
@@ -157,7 +158,7 @@ const ShipBuilder = (props) => {
                 }
             }
 
-            let filename = '';
+            let filename;
             if (populatedComponents[x] !== undefined && populatedComponents[x][y] !== undefined) {
                 filename = `ico_${populatedComponents[x][y].normalizedDataName.replace('-', '_').toLowerCase()}`;
             } else if (slot.moduleSlotType.toLowerCase() === highlightedComponent) {
@@ -229,6 +230,10 @@ const ShipBuilder = (props) => {
         }
     }
 
+    const changePropellentTanksHandler = (value) => {
+        dispatch(shipActions.setPropellentTanks(value));
+    }
+
     return (
         <Box sx={{backgroundColor: 'background.default', width: '100%', minHeight: '700px'}}>
             <Grid container columns={8}>
@@ -271,7 +276,8 @@ const ShipBuilder = (props) => {
             </Box>
             <Grid container>
                 <Grid item xs={3}>
-                    <ShipSummary hull={ship.hull} components={componentsList}/>
+                    <ShipSummary hull={ship.hull} tanks={ship.propellantTanks}
+                                 components={componentsList}/>
                     <ComponentSummary component={selectedComponent}/>
                 </Grid>
                 <Grid item xs={9}>
@@ -282,7 +288,8 @@ const ShipBuilder = (props) => {
                         marginTop: '20px',
                         marginBottom: '20px'
                     }}>
-                        <IncrementDecrement top={driveLocation.top - imageWidth / 2 - 10}
+                        <IncrementDecrement min={0} onChange={changePropellentTanksHandler}
+                                            top={driveLocation.top - imageWidth / 2 - 10}
                                             left={driveLocation.left - 10}
                                             label='Propellant Tanks'/>
                         {imgGrid}
