@@ -1,4 +1,4 @@
-import {exhaustVelocityDisplay, playerDrives, thrustDisplay} from "../../../helpers/drives";
+import {displayKps, playerDrives, thrustDisplay} from "../../../helpers/drives";
 import {Box, Grid, Tooltip} from "@mui/material";
 import {getRequiredPowerPlantLoc} from "../../../helpers/power-plant";
 import KeyValueRow from "../../general/KeyValueTable/KeyValueRow";
@@ -17,21 +17,9 @@ const DriveList = (props) => {
     const drives = playerDrives.map(drive => {
         const iconName = drive.normalizedDataName.toLowerCase().replaceAll('-', '_');
 
-        const tooltipGridLeft = (text) => {
-            return <Grid item xs={6}>
-                {text}:
-            </Grid>
-        }
-
-        const tooltipGridRight = (text) => {
-            return <Grid item xs={6} style={{textAlign: 'right'}}>
-                {text}
-            </Grid>
-        }
-
         const dragStartHandler = (drive) => {
             driveSelectedHandler(drive);
-            
+
             dispatch(dndActions.startDrag({
                 item: drive,
                 itemType: 'drive',
@@ -44,10 +32,12 @@ const DriveList = (props) => {
                 <KeyValueRow label={'Thrust'}>
                     {thrustDisplay(drive.thrust_N)}
                 </KeyValueRow>
-                {tooltipGridLeft('Exhaust Velocity')}
-                {tooltipGridRight(exhaustVelocityDisplay(drive.EV_kps))}
-                {tooltipGridLeft('Required Power Plant')}
-                {tooltipGridRight(getRequiredPowerPlantLoc(drive.requiredPowerPlant))}
+                <KeyValueRow label={'Exhaust Velocity'}>
+                    {displayKps(drive.EV_kps)}
+                </KeyValueRow>
+                <KeyValueRow label={'Required Power Plant'}>
+                    {getRequiredPowerPlantLoc(drive.requiredPowerPlant)}
+                </KeyValueRow>
             </Grid>
         </div>
 

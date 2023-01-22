@@ -234,7 +234,6 @@ const ShipBuilder = () => {
     }
 
     const changeCategoryHandler = (category) => {
-        console.log(category);
         setSelectedComponentCategory(category);
     }
 

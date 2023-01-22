@@ -46,14 +46,6 @@ export const thrustDisplay = (thrust) => {
     return `${thrust.toLocaleString('en-US')} Newtons`;
 }
 
-export const exhaustVelocityDisplay = (exhaustVelocity) => {
-    if (exhaustVelocity > 1000) {
-        return `${(exhaustVelocity / 1000).toFixed(2)}K kps`;
-    } else {
-        return `${(exhaustVelocity).toFixed(2)} kps`;
-    }
-}
-
 export const displayKps = (exhaustVelocity) => {
     if (exhaustVelocity > 1000) {
         return `${(exhaustVelocity / 1000).toFixed(2)}K kps`;

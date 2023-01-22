@@ -3,11 +3,9 @@ import {playerHulls} from '../helpers/hulls';
 import {useDispatch, useSelector} from "react-redux";
 import {shipActions} from "../store/ship-slice";
 
-const HullSelector = (props) => {
+const HullSelector = () => {
     const dispatch = useDispatch();
     const hull = useSelector(state => state.ship.hull);
-
-    console.log(hull);
 
     const hullsList = playerHulls.map((hull) => {
         return (

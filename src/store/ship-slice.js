@@ -9,7 +9,6 @@ const shipSlice = createSlice({
     },
     reducers: {
         highlightComponents(state, action) {
-            console.log(action.payload);
             state.highlightedComponentType = action.payload;
         },
         setHull(state, action) {
