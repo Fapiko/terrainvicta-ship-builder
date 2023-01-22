@@ -1,6 +1,6 @@
 import IncrementButton from "./IncrementButton";
 import DecrementButton from "./DecrementButton";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const IncrementDecrement = (props) => {
     let min = 0;
@@ -9,6 +9,10 @@ const IncrementDecrement = (props) => {
     }
 
     const [count, setCount] = useState(min);
+
+    useEffect(() => {
+        setCount(min);
+    }, [props.max, min]);
 
 
     const decrementCount = () => {

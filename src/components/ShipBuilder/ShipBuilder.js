@@ -1,6 +1,6 @@
 import {Box, Grid} from "@mui/material";
 import {emptyComponentMappings, selectComponentMappings} from "./components/EmptyComponent";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ComponentSummary from "./ComponentSummary";
 import {useDispatch, useSelector} from "react-redux";
 import CategoryTab from "./CategoryTab";
@@ -20,6 +20,10 @@ const ShipBuilder = (props) => {
     const highlightedComponent = useSelector(state => state.ship.highlightedComponentType);
     const [populatedComponents, setPopulatedComponents] = useState({});
     const dnd = useSelector(state => state.dnd);
+
+    useEffect(() => {
+        setPopulatedComponents({});
+    }, [ship.hull]);
 
     const selectedComponentCategory = 'drive';
 
