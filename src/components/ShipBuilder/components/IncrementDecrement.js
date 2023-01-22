@@ -1,5 +1,5 @@
 import IncrementButton from "./IncrementButton";
-import DecrementButton from "./DecrementButton";
+import DecrementButton from "./lists/DecrementButton";
 import {useEffect, useState} from "react";
 
 const IncrementDecrement = (props) => {

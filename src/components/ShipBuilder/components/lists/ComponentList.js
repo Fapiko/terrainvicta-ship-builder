@@ -1,4 +1,4 @@
-import DriveList from "./DriveList";
+import DriveList from "../DriveList";
 import NoseWeaponsList from "./NoseWeaponsList";
 
 const ComponentList = (props) => {

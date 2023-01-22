@@ -1,8 +1,8 @@
 import {Grid, Paper, Typography} from "@mui/material";
-import {displayKps, thrustDisplay} from "../../helpers/drives";
-import KeyValueRow from "../general/KeyValueTable/KeyValueRow";
-import {getDriveLoc} from "../../helpers/localizations";
-import PropellantMaterials from "./PropellantMaterials";
+import {displayKps, thrustDisplay} from "../../../../helpers/drives";
+import KeyValueRow from "../../../general/KeyValueTable/KeyValueRow";
+import {getDriveLoc} from "../../../../helpers/localizations";
+import PropellantMaterials from "../../PropellantMaterials";
 
 const DriveComponentSummary = (props) => {
     const drive = props.drive;

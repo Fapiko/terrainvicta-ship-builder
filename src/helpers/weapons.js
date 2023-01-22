@@ -13,9 +13,11 @@ const mapWeaponType = (type, weapon) => {
 
     return {
         ...weapon,
+        normalizedDataName: weapon.dataName,
         friendlyName: friendlyName,
         weaponType: type,
         mountType: weapon.mount.includes('Nose') ? 'nose' : 'hull',
+        componentType: weapon.mount.includes('Nose') ? 'nosehardpoint' : 'hullhardpoint',
     };
 }
 

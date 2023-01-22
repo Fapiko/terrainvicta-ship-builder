@@ -1,17 +1,17 @@
 import {Box, Grid, Tooltip} from "@mui/material";
 import {useDispatch} from "react-redux";
-import {shipActions} from "../../../store/ship-slice";
-import {dndActions} from "../../../store/dnd-slice";
-import CategoryTab from "../CategoryTab";
+import {shipActions} from "../../../../store/ship-slice";
+import {dndActions} from "../../../../store/dnd-slice";
+import CategoryTab from "../../CategoryTab";
 import {useState} from "react";
-import {allNoseWeapons} from "../../../helpers/weapons";
+import {allNoseWeapons} from "../../../../helpers/weapons";
 
 const NodeWeaponsList = (props) => {
     const dispatch = useDispatch();
     const [weaponCategory, setWeaponCategory] = useState('all');
 
     const weaponSelectedHandler = (weapon) => {
-        dispatch(shipActions.highlightComponents('noseweapon'));
+        dispatch(shipActions.highlightComponents('nosehardpoint'));
         props.componentSelectionChanged(weapon);
     }
 

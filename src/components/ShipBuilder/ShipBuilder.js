@@ -1,10 +1,10 @@
 import {Box, Grid} from "@mui/material";
 import {emptyComponentMappings, selectComponentMappings} from "./components/EmptyComponent";
 import {useEffect, useState} from "react";
-import ComponentSummary from "./ComponentSummary";
+import ComponentSummary from "./components/summaries/ComponentSummary";
 import {useDispatch, useSelector} from "react-redux";
 import CategoryTab from "./CategoryTab";
-import ComponentList from "./components/ComponentList";
+import ComponentList from "./components/lists/ComponentList";
 import {dndActions} from "../../store/dnd-slice";
 import ShipSummary from "./ShipSummary";
 import IncrementDecrement from "./components/IncrementDecrement";
@@ -21,13 +21,13 @@ const ShipBuilder = () => {
     const highlightedComponent = useSelector(state => state.ship.highlightedComponentType);
     const [populatedComponents, setPopulatedComponents] = useState({});
     const [selectedComponentCategory, setSelectedComponentCategory] = useState('drive');
+    const [selectedComponent, setSelectedComponent] = useState({});
     const dnd = useSelector(state => state.dnd);
 
     useEffect(() => {
         setPopulatedComponents({});
     }, [ship.hull]);
 
-    const [selectedComponent, setSelectedComponent] = useState({});
     let componentsByType = {
         utility: [],
         nosehardpoint: [],

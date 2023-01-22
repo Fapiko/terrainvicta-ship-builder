@@ -1,4 +1,4 @@
-import IncrementDecrementButton from "./IncrementDecrementButton";
+import IncrementDecrementButton from "../IncrementDecrementButton";
 
 const DecrementButton = (props) => {
     return (
