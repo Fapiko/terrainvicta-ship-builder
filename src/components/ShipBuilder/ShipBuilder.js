@@ -20,13 +20,12 @@ const ShipBuilder = () => {
     const ship = useSelector(state => state.ship);
     const highlightedComponent = useSelector(state => state.ship.highlightedComponentType);
     const [populatedComponents, setPopulatedComponents] = useState({});
+    const [selectedComponentCategory, setSelectedComponentCategory] = useState('drive');
     const dnd = useSelector(state => state.dnd);
 
     useEffect(() => {
         setPopulatedComponents({});
     }, [ship.hull]);
-
-    const selectedComponentCategory = 'drive';
 
     const [selectedComponent, setSelectedComponent] = useState({});
     let componentsByType = {
@@ -234,11 +233,17 @@ const ShipBuilder = () => {
         dispatch(shipActions.setPropellentTanks(value));
     }
 
+    const changeCategoryHandler = (category) => {
+        console.log(category);
+        setSelectedComponentCategory(category);
+    }
+
     return (
         <Box sx={{backgroundColor: 'background.default', width: '100%', minHeight: '700px'}}>
             <Grid container columns={8}>
                 <Grid item xs={1}>
-                    <CategoryTab selected={selectedComponentCategory === 'noseweapons'}>NOSE
+                    <CategoryTab onClick={changeCategoryHandler.bind(null, 'noseweapons')}
+                                 selected={selectedComponentCategory === 'noseweapons'}>NOSE
                         WEAPONS</CategoryTab>
                 </Grid>
                 <Grid item xs={1}>
@@ -263,6 +268,7 @@ const ShipBuilder = () => {
                 </Grid>
                 <Grid item xs={1}>
                     <CategoryTab
+                        onClick={changeCategoryHandler.bind(null, 'drive')}
                         selected={selectedComponentCategory === 'drive'}>DRIVE</CategoryTab>
                 </Grid>
                 <Grid item xs={1}>
@@ -270,7 +276,7 @@ const ShipBuilder = () => {
                         selected={selectedComponentCategory === 'armor'}>ARMOR</CategoryTab>
                 </Grid>
             </Grid>
-            <Box sx={{display: 'flex'}}>
+            <Box>
                 <ComponentList componentSelectionChanged={setSelectedComponent}
                                componentCategory={selectedComponentCategory}/>
             </Box>

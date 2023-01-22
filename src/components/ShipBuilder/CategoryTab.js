@@ -23,7 +23,8 @@ const CategoryTab = (props) => {
             backgroundColor: `${backgroundColor}`,
             textAlign: 'center',
             cursor: 'pointer',
-        }} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
+        }} onClick={props.onClick} onMouseEnter={mouseEnterHandler}
+             onMouseLeave={mouseLeaveHandler}>
             {props.children}
         </Box>
     )
