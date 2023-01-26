@@ -62,3 +62,15 @@ const allPlayerWeapons = [
 export const allNoseWeapons = allPlayerWeapons.filter(weapon => {
     return weapon.mountType === 'nose';
 });
+
+export const hardpointText = (weapon) => {
+    if (weapon.mount.includes('One')) {
+        return '1 hard point';
+    } else if (weapon.mount.includes('Two')) {
+        return '2 hard points';
+    } else if (weapon.mount.includes('Three')) {
+        return '3 hard points';
+    } else if (weapon.mount.includes('Four')) {
+        return '4 hard points';
+    }
+}

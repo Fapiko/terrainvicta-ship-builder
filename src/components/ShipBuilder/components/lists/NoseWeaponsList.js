@@ -1,5 +1,5 @@
 import {Box, Grid, Tooltip} from "@mui/material";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {shipActions} from "../../../../store/ship-slice";
 import {dndActions} from "../../../../store/dnd-slice";
 import CategoryTab from "../../CategoryTab";
@@ -7,6 +7,7 @@ import {useState} from "react";
 import {allNoseWeapons} from "../../../../helpers/weapons";
 
 const NodeWeaponsList = (props) => {
+    const hull = useSelector(state => state.ship.hull);
     const dispatch = useDispatch();
     const [weaponCategory, setWeaponCategory] = useState('all');
 
@@ -36,12 +37,17 @@ const NodeWeaponsList = (props) => {
             <div>{weapon.friendlyName}</div>
         </div>
 
+        const opacity = hull.noseMounts.includes(weapon.mount) ? 1 : 0.5;
+
         return (
             <Tooltip key={weapon.dataName} sx={{maxWidth: '500px'}} title={tooltip}>
-                <img onDragStart={dragStartHandler.bind(null, weapon)} draggable
+                <span style={{width: 72, height: 72}}>
+                <img style={{opacity: opacity}} onDragStart={dragStartHandler.bind(null, weapon)}
+                     draggable
                      onClick={weaponSelectedHandler.bind(null, weapon)}
                      src={`assets/shipbuildericons/ico_${iconName}.png`} alt={weapon.name}
                      height={72}/>
+                </span>
             </Tooltip>
         );
     });

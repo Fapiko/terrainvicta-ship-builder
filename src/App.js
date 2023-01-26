@@ -13,14 +13,14 @@ function App() {
             <CssBaseline/>
             <Grid container>
                 <Grid item xs={2}/>
-                <Grid item xs={8}>
+                <Grid item xs={9}>
                     <Typography variant={'h3'}>Terra Invicta Ship Builder</Typography>
                     <Paper sx={{p: 2}}>
                         <HullSelector id='hull-select' value={ship.hull.dataName}/>
                         <ShipBuilder hull={ship.hull}/>
                     </Paper>
                 </Grid>
-                <Grid item xs={2}/>
+                <Grid item xs={1}/>
             </Grid>
         </ThemeProvider>
     );

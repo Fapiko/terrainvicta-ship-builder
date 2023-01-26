@@ -1,9 +1,9 @@
 import {Grid, Paper, Typography} from "@mui/material";
 import KeyValueRow from "../../../general/KeyValueTable/KeyValueRow";
+import {hardpointText} from "../../../../helpers/weapons";
 
 const NoseWeaponComponentSummary = (props) => {
     const weapon = props.weapon;
-
 
     return (
         <>
@@ -16,6 +16,9 @@ const NoseWeaponComponentSummary = (props) => {
                                         textTransform: 'uppercase'
                                     }}>{weapon.friendlyName}</Typography>
                     </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    Nose mount, uses {hardpointText(weapon)}.
                 </Grid>
                 <KeyValueRow label="Mass">
                     {weapon.baseWeaponMass_tons} tons

@@ -1,10 +1,10 @@
-import {displayKps, playerDrives, thrustDisplay} from "../../../helpers/drives";
+import {displayKps, playerDrives, thrustDisplay} from "../../../../helpers/drives";
 import {Box, Grid, Tooltip} from "@mui/material";
-import {getRequiredPowerPlantLoc} from "../../../helpers/power-plant";
-import KeyValueRow from "../../general/KeyValueTable/KeyValueRow";
+import {getRequiredPowerPlantLoc} from "../../../../helpers/power-plant";
+import KeyValueRow from "../../../general/KeyValueTable/KeyValueRow";
 import {useDispatch} from "react-redux";
-import {shipActions} from "../../../store/ship-slice";
-import {dndActions} from "../../../store/dnd-slice";
+import {shipActions} from "../../../../store/ship-slice";
+import {dndActions} from "../../../../store/dnd-slice";
 
 const DriveList = (props) => {
     const dispatch = useDispatch();
